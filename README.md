@@ -2,9 +2,11 @@
 DORNE (Developmental Outlier Recognition Network Engine) is a modular Python-based framework designed for systematic market research and historical strategy simulation.
 
 **Overview**
+
 This project demonstrates an end-to-end quantitative pipeline, from raw data ingestion to performance analytics. It is designed to evaluate equity momentum through a multi-stage filtering process and statistical modeling.
 
 **Core Modules**
+
 1. Data Ingestion & Aggregation
 Automated historical data retrieval and preprocessing.
 Scalable batch processing for long-term macro-cycle analysis.
@@ -20,12 +22,14 @@ Comparative analysis of different execution and scaling models.
 Standardized reporting of net performance metrics (R-units) and compounding curves.
 
 **Technical Specs**
+
 Language: Python
 Data Science: Pandas, NumPy, SciPy
 Automation: Subprocess-driven simulation loops
 API Integration: Financial data providers
 
 **Project Goals**
+
 Systematic Research: Reducing emotional bias through strictly defined entry and exit logic.
 Backtesting Integrity: Accounting for realistic constraints like trade frequency and asset cooldowns.
 Scalability: Building a codebase that can be deployed to cloud environments for 24/7 monitoring.
