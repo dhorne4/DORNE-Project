@@ -4,6 +4,7 @@ DORNE (Developmental Outlier Recognition Network Engine) is a modular Python-bas
 **Overview**
 
 This project demonstrates an end-to-end quantitative pipeline, from raw data ingestion to performance analytics. It is designed to evaluate equity momentum through a multi-stage filtering process and statistical modeling.
+The full repository is being kept private as I am unsure of how far I am going to take it in realtion to making it a paid access tool.
 
 
 
