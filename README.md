@@ -26,7 +26,6 @@
 
 - Each job runs on its own, so one failure doesn't stop the rest.
 - Safeguards prevent duplicate orders, and the system retries automatically and keeps backups of its records.
-- It starts in a safe test mode. Live trading needs an explicit setting, and an emergency stop blocks new trades.
 - Built-in risk limits shrink positions during losing stretches.
 
 ## Research process
