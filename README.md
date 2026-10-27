@@ -1,54 +1,49 @@
-#DORNE: Quantitative Analysis & Execution Framework
-DORNE (Developmental Outlier Recognition Network Engine) is a modular Python-based framework designed for systematic market research and historical strategy simulation.
+DORNE: Automated Trading & Research System
+DORNE (Developmental Outlier Recognition Network Engine) is a Python system that researches, runs and reports on an end-of-day U.S. equity strategy. It trades a live Alpaca account every market day from a Linux server and posts its trades and results to a Discord community.
 
-**Overview**
+The source code is private. This page describes how the system is built and how it works.
 
-This project demonstrates an end-to-end quantitative pipeline, from raw data ingestion to performance analytics. It is designed to evaluate equity momentum through a multi-stage filtering process and statistical modeling.
-The full repository is being kept private as I am unsure of how far I am going to take it in realtion to making it a paid access tool.
+At a glance
+Status	Live since October 2026 (v4); project started July 2026
+Language	Python (pandas, NumPy)
+Broker & data	Alpaca API (orders and market data), Finviz (stock universe)
+Hosting	DigitalOcean Ubuntu server, systemd services, running 24/7
+Alerts	Discord webhooks
+Built with	Gemini (original model), Claude Code (v4 rebuild)
+How it works
+A scheduler reads each day's market hours from Alpaca's calendar, including holidays and early closes. It starts every job as a separate process, so one failure never stops the schedule.
 
+Time (ET)	Job
+9:10 AM	Sends market-on-open sell orders for the previous day's trades
+9:31 AM	Places the day's planned limit buys once the opening sales have filled
+Every 5 min	Records fills and keeps the system's records in line with the broker
+3:45 PM	Takes a market snapshot, computes signals and sends market-on-close orders
+4:15 PM	Confirms closing fills, records daily equity and places next-day limit orders
+4:30 PM	Posts the daily status and weekly, monthly and yearly reports
+4:45 PM	Runs paper-trading copies of the strategy to compare against live results
+Saturdays	Refreshes the ~900-stock universe and checks every ticker is tradable
+Risk controls
+No margin. A drawdown brake shrinks position sizes as the account falls from its peak.
+Hard 50% maximum-drawdown limit. Every strategy change is accepted or rejected against it.
+Dry-run by default. Live trading needs an explicit setting, and an emergency stop file blocks all new buys.
+Safe operations: one order ID per day to prevent duplicates, job locks and retries, backed-up state files, and stock-split detection.
+Research process
+75+ rounds of research on 2008–2026 daily data.
+Monte Carlo simulation estimates the range of possible returns and the chance of a deep drawdown.
+Out-of-sample checks: an idea must hold up in both 2008–2020 and 2021–2026 before it is adopted. Most ideas are rejected.
+Live-code verification: a replay check confirms the live code produces the same signals and portfolio as the research code. A simulation runs the real job scripts against a fake broker.
+Monitoring & community
+Discord server with channels for server status, live trade alerts (posted after each fill) and performance reports (percent returns). A private channel holds full details.
+Live dashboard: a read-only 3D city view of the account, served over a private network.
+Live vs. paper tracking: paper copies of the strategy show whether live fills match what the research expects.
+Project history
+July 2026: original model built with Gemini. Daily scans ran on GitHub Actions with Databento market data.
+October 2026: rebuilt as DORNE v4 with Claude Code. Moved to a dedicated Linux server and live trading.
+My role
+I direct the project. I set the goals and risk limits, propose research ideas, review code changes and approve each release before it goes live. I also deployed and run the server and built the Discord community. The code was written with AI coding tools (Gemini, then Claude Code).
 
+Join the community
+Join the Discord server through the landing page: https://dorne101.carrd.co/
 
-**Core Modules**
-1. Data Ingestion & Aggregation
-
-Automated historical data retrieval and preprocessing.
-Scalable batch processing for long-term macro-cycle analysis.
-
-2. Strategy Simulation Engine
-
-A modular backtesting environment for evaluating technical and structural market setups.
-Integrated risk management protocols and capital allocation logic.
-Statistical price-path modeling to assess trade expectancy.
-
-3. Performance Analytics & Grading
-
-Automated verification of simulation outcomes against realized market data.
-Comparative analysis of different execution and scaling models.
-Standardized reporting of net performance metrics (R-units) and compounding curves.
-
-
-
-**Technical Specs**
-
-Language: Python
-Data Science: Pandas, NumPy, SciPy
-Automation: Subprocess-driven simulation loops
-API Integration: Financial data providers
-
-
-
-**Project Goals**
-
-Systematic Research: Reducing emotional bias through strictly defined entry and exit logic.
-Backtesting Integrity: Accounting for realistic constraints like trade frequency and asset cooldowns.
-Scalability: Building a codebase that can be deployed to cloud environments for 24/7 monitoring.
-
-
-
-**Community & Real-Time Deployment**
-The DORNE framework is extended into a live environment through a dedicated Discord server, bridging the gap between historical research and real-time data distribution.
-Automated Alerting Pipeline: The engine includes a custom integration that broadcasts high-probability setups directly to community channels for real-time monitoring.
-Interactive Intelligence Bot: Features a Discord-native bot that allows community members to perform on-demand queries against the engine's predictive models for specific market outlooks.
-Collaborative Research Environment: Provides a centralized hub for tracking live system performance and discussing quantitative market trends in a professional setting.
-
-Join via the landing page. https://dorne101.carrd.co/
+Disclaimer
+DORNE is a personal research project. Nothing here or in the Discord server is investment advice. Backtested and simulated results do not guarantee future performance.
